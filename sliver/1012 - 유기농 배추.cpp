@@ -27,7 +27,7 @@ int main()
 
 	while (t--)
 	{
-		// 초기화
+		// initialize
 		for (int y = 0; y < MAX_SIZE; y++)
 		{
 			for (int x = 0; x < MAX_SIZE; x++)
@@ -38,7 +38,7 @@ int main()
 		}
 		caterpillar = 0;
 
-		// 시작
+		// start
 		scanf("%d%d%d", &M, &N, &K);
 		for (int i = 0; i < K; i++)
 		{
