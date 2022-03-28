@@ -17,7 +17,7 @@ int main()
 		for (int x = 0; x < M; x++)
 		{
 			scanf("%d", &field[y][x]);
-			if(field[y][x] == 1)
+			if (field[y][x] == 1)
 				q.push(make_pair(x, y));
 		}
 	}
@@ -41,7 +41,7 @@ int main()
 
 			if (nx >= 0 && nx < M && ny >= 0 && ny < N)
 			{
-				if ((min_dist[ny][nx] == 0 || min_dist[ny][nx] > min_dist[y][x] + 1) && field[ny][nx] == 0)
+				if (min_dist[ny][nx] == 0 && field[ny][nx] == 0)
 				{
 					q.push(make_pair(nx, ny));
 					min_dist[ny][nx] = min_dist[y][x] + 1;
