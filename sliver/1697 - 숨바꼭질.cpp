@@ -36,7 +36,7 @@ void BFS(int start)
 
 			if (nx >= 0 && nx < MAXV)
 			{
-				if (dist[nx] == 0 || dist[nx] > dist[x] + 1)
+				if (dist[nx] == 0)
 				{
 					q.push(nx);
 					dist[nx] = dist[x] + 1;

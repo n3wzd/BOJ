@@ -33,7 +33,7 @@ int main()
 			}
 		}
 	}
-	
+
 
 	while (!q.empty())
 	{
@@ -56,7 +56,7 @@ int main()
 
 			if (nx >= 0 && nx < M && ny >= 0 && ny < N && nz >= 0 && nz < H)
 			{
-				if ((min_dist[nz][ny][nx] == 0 || min_dist[nz][ny][nx] > min_dist[z][y][x] + 1) && field[nz][ny][nx] == 0)
+				if (min_dist[nz][ny][nx] == 0 && field[nz][ny][nx] == 0)
 				{
 					Node node(nx, ny, nz);
 					q.push(node);
