@@ -1,24 +1,24 @@
 #include <iostream>
-#include <utility>
 #include <queue>
 using namespace std;
 # define MAXV 100002
 
 int N, K;
-bool visited[MAXV] = { 0, };
 int dist[MAXV] = { 0, };
 
 void BFS(int start)
 {
-	priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
-	pq.push(make_pair(0, start));
-	dist[start] = 0;
-	visited[start] = 1;
+	for (int i = 0; i < MAXV; i++)
+		dist[i] = MAXV;
 
-	while (!pq.empty())
+	deque<int> deq;
+	deq.push_back(start);
+	dist[start] = 0;
+
+	while (!deq.empty())
 	{
-		int x = pq.top().second;
-		pq.pop();
+		int x = deq.front();
+		deq.pop_front();
 
 		if (x == K) // destination
 		{
@@ -35,11 +35,15 @@ void BFS(int start)
 
 			if (nx >= 0 && nx < MAXV)
 			{
-				if (!visited[nx])
+				if (i == 0 && dist[nx] > dist[x])
 				{
-					dist[nx] = (i == 0) ? dist[x] : dist[x] + 1;
-					pq.push(make_pair(dist[nx], nx));
-					visited[nx] = 1;
+					dist[nx] = dist[x];
+					deq.push_front(nx);
+				}
+				else if (dist[nx] > dist[x] + 1)
+				{
+					dist[nx] = dist[x] + 1;
+					deq.push_back(nx);
 				}
 			}
 		}
