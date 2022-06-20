@@ -35,7 +35,7 @@ int DFS(int v) {
 }
 
 void Tarjan() {
-	for (int v = 1; v <= N; v++)
+	for (int v = 1; v <= N * 2; v++)
 		if (Did[v] == 0)
 			DFS(v);
 }
