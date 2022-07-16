@@ -3,7 +3,6 @@
 using namespace std;
 struct Node { int num, id; };
 int N, L, num;
-queue<Node> window;
 deque<Node> dq;
 
 int main() {
@@ -11,12 +10,9 @@ int main() {
 	cin >> N >> L;
 	for (int i = 0; i < N; i++) {
 		cin >> num;
-		if (window.size() >= L) {
-			if(window.front().id >= dq.front().id)
+		if (!dq.empty())
+			if (i - L >= dq.front().id)
 				dq.pop_front();
-			window.pop();
-		}
-		window.push({ num, i });
 
 		while (!dq.empty()) {
 			if (dq.back().num < num)
