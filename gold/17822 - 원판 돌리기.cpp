@@ -9,82 +9,69 @@ void rotate(int x, int k) {
     start[x] = (start[x] + k + M) % M;
 }
 
+void update() {
+    double cnt = 0;
+    double average = 0;
+    for (int x = 0; x < N; x++)
+        for (int m = 0; m < M; m++)
+            if (!eraseMark[x][m])
+                cnt++, average += board[x][m];
+    if (cnt == 0)
+        return;
+    average /= cnt;
+    for (int x = 0; x < N; x++)
+        for (int m = 0; m < M; m++)
+            if (!eraseMark[x][m])
+                board[x][m] += (board[x][m] < average ? 1 : (board[x][m] > average ? -1 : 0));
+}
+
 void erase() {
-    for(int x = 0; x < N; x++) {
-        for(int m = 0; m < M; m++) {
-            if(eraseMark[x][mToIdx(x, m)])
+    bool isErased = 0;
+    for (int x = 0; x < N; x++) {
+        for (int m = 0; m < M; m++) {
+            if (eraseMark[x][mToIdx(x, m)])
                 continue;
-            for(int d = 0; d < 4; d++) {
-                if((d == 2 && x == 0) || (d == 0 && x == N - 1))
+            for (int d = 0; d < 4; d++) {
+                if ((d == 2 && x == 0) || (d == 0 && x == N - 1))
                     continue;
                 int nx = x + dx[d], nm = (m + dm[d]) % M;
-                if(eraseMark[nx][mToIdx(nx, nm)])
+                if (eraseMark[nx][mToIdx(nx, nm)])
                     continue;
                 eraseMarkTemp[x][mToIdx(x, m)] |= board[x][mToIdx(x, m)] == board[nx][mToIdx(nx, nm)];
             }
+            isErased |= eraseMark[x][mToIdx(x, m)] != eraseMarkTemp[x][mToIdx(x, m)];
         }
     }
-    for(int x = 0; x < N; x++)
-        for(int m = 0; m < M; m++)
+    for (int x = 0; x < N; x++)
+        for (int m = 0; m < M; m++)
             eraseMark[x][m] = eraseMarkTemp[x][m];
-}
 
-void update() {
-    int cnt = 0;
-    double average = 0;
-    for(int x = 0; x < N; x++)
-        for(int m = 0; m < M; m++)
-            if(!eraseMark[x][m])
-                cnt++, average += board[x][m];
-    average /= cnt;
-    for(int x = 0; x < N; x++)
-        for(int m = 0; m < M; m++)
-            if(!eraseMark[x][m])
-                board[x][m] += board[x][m] < average ? 1 : (board[x][m] > average ? -1 : 0);
+    if (!isErased)
+        update();
 }
 
 int sum() {
     int sum = 0;
-    for(int x = 0; x < N; x++)
-        for(int m = 0; m < M; m++)
-            if(!eraseMark[x][m])
+    for (int x = 0; x < N; x++)
+        for (int m = 0; m < M; m++)
+            if (!eraseMark[x][m])
                 sum += board[x][m];
     return sum;
 }
 
-void print() {
-    for(int x = 0; x < N; x++) {
-        for(int m = 0; m < M; m++)
-            cout << board[x][mToIdx(x, m)] << " ";
-        cout << "\n";
-    }
-    cout << "\n";
-}
-
-void print2() {
-    for(int x = 0; x < N; x++) {
-        for(int m = 0; m < M; m++)
-            cout << eraseMark[x][mToIdx(x, m)] << " ";
-        cout << "\n";
-    }
-    cout << "\n";
-}
-
 int main() {
-	ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
-	cin >> N >> M >> T;
-    for(int x = 0; x < N; x++)
-        for(int m = 0; m < M; m++)
+    ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+    cin >> N >> M >> T;
+    for (int x = 0; x < N; x++)
+        for (int m = 0; m < M; m++)
             cin >> board[x][m];
-	while (T--) {
-		int x, d, k;
-		cin >> x >> d >> k;
-		for(int i = 0; i < N; i++)
+    while (T--) {
+        int x, d, k;
+        cin >> x >> d >> k;
+        for (int i = 1; x * i <= N; i++)
             rotate(x * i - 1, k * (d == 0 ? 1 : -1));
-        print();
-        erase(); update();
-        print();
-	}
-	cout << sum();
-	return 0;
+        erase();
+    }
+    cout << sum();
+    return 0;
 }
